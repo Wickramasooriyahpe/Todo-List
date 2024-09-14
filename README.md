@@ -1,12 +1,31 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# Todo List Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This is a Todo List application built with React. It allows users to add, edit, and delete tasks. 
 
-In the project directory, you can run:
+## Prerequisites
 
+- **Node.js**: Make sure you have Node.js installed on your system. You can download it from [nodejs.org](https://nodejs.org/).
+
+## Getting Started
+
+Follow these steps to run the application locally:
+
+1. **Clone the Repository**
+   If you haven't already, download or clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+   
+2. **Install Dependencies**
+   ```bash
+   npm install
+   
+4. **Start the Development Server**
+   ```bash
+   npm start
+   
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -71,4 +90,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 =======
 # Todo-List
->>>>>>> origin/main
