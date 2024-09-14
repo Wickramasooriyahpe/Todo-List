@@ -8,7 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); 
   const [authError, setAuthError] = useState(''); 
   const [users, setUsers] = useState(() => {
- 
     const storedUsers = localStorage.getItem('users');
     return storedUsers ? JSON.parse(storedUsers) : [];
   });
@@ -26,27 +25,24 @@ export const AuthProvider = ({ children }) => {
 
   const register = (username, email, password) => {
     const newUser = { username, email, password };
+    const storedUsers = localStorage.getItem('users');
+    const parsedUsers = storedUsers ? JSON.parse(storedUsers) : [];
+    const existingUser = parsedUsers.find((user) => user.email === email);
 
-  const storedUsers = localStorage.getItem('users');
-  const parsedUsers = storedUsers ? JSON.parse(storedUsers) : [];
+    if (existingUser) {
+      setAuthError('User with this email already exists.');
+      return false;
+    }
 
-  const existingUser = parsedUsers.find((user) => user.email === email);
-  if (existingUser) {
-    setAuthError('User with this email already exists.');
-    return false;
-  }
- 
-  const updatedUsers = [...parsedUsers, newUser];
-  setUsers(updatedUsers); 
-  localStorage.setItem('users', JSON.stringify(updatedUsers)); 
-  setAuthError(''); 
-  console.log('Registered Users:', updatedUsers);
-
-  return true;
-};
+    const updatedUsers = [...parsedUsers, newUser];
+    setUsers(updatedUsers); 
+    localStorage.setItem('users', JSON.stringify(updatedUsers)); 
+    setAuthError(''); 
+    console.log('Registered Users:', updatedUsers);
+    return true;
+  };
 
   const login = (email, password) => {
-    
     const foundUser = users.find((user) => user.email === email && user.password === password);
 
     if (foundUser) {
@@ -61,7 +57,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
- 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('loggedInUser'); 
@@ -73,4 +68,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-

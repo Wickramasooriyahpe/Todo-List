@@ -10,13 +10,13 @@ const onChange = (key) => {
 const items = [
   {
     key: "1",
-    label: "Sign up",
-    children: <Register />,
+    label: "Sign in",
+    children: <Login />,
   },
   {
     key: "2",
-    label: "Sign in",
-    children: <Login />,
+    label: "Sign up",
+    children: <Register />,
   },
 ];
 const TabComponent = () => (

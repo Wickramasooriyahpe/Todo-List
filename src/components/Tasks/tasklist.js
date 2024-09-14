@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Space, Table, Tag } from 'antd'; // Import Modal for confirmation
+import { Space, Table, Tag } from 'antd';
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function TaskList({ tasks, onEdit, onDelete, onTasksUpdate, onRowSelectionChange }) {
@@ -72,23 +72,21 @@ function TaskList({ tasks, onEdit, onDelete, onTasksUpdate, onRowSelectionChange
 
   const expandable = {
     expandedRowRender: (record) => <p>{record.description}</p>,
-    expandedRowKeys: expandedRowKeys,
+    expandedRowKeys,
     onExpand: (expanded, record) => {
-      if (expanded) {
-        setExpandedRowKeys([...expandedRowKeys, record.key]);
-      } else {
-        setExpandedRowKeys(expandedRowKeys.filter(key => key !== record.key));
-      }
+      setExpandedRowKeys(
+        expanded ? [record.key] : []
+      );
     },
   };
 
   return (
     <Table
       columns={columns}
+      dataSource={tasks}
       rowSelection={rowSelection}
       expandable={expandable}
-      dataSource={tasks}
-      rowKey="key"
+      pagination={false}
     />
   );
 }
