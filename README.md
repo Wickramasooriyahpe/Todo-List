@@ -25,6 +25,14 @@ Follow these steps to run the application locally:
 4. **Start the Development Server**
    ```bash
    npm start
+
+## User Manual
+
+1. Register for the system by providing your name, a valid email address, and a password. 
+2. After registration, you will be redirected to the login page. 
+3. Log in to the system using the credentials you provided during registration. 
+4. Enjoy managing your tasks!
+   
    
 ### `npm start`
 
