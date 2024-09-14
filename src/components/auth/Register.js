@@ -26,7 +26,7 @@ const Register = () => {
         message.success('Registration successful!');
         navigate('/dashboard');
       } else {
-        message.error('Registration failed. Please try again.');
+        message.error('Registration failed. User with this email already exists.');
       }
     },
   });
