@@ -103,7 +103,8 @@ function Tasks() {
     <div>
       <div>
         <CustomButton
-          text={<PlusOutlined />}
+          text="Add New Task"
+          // {<PlusOutlined />}
           className="custom-btn custom-btn-primary"
           onClick={handleAddTask}
         >

@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Space, Table, Tag } from 'antd';
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function TaskList({ tasks, onEdit, onDelete, onTasksUpdate, onRowSelectionChange }) {
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+  const countDoneTags = (tasks) => {
+    return tasks.reduce((count, task) => {
+      return count + (task.tags.includes("Done") ? 1 : 0);
+    }, 0);
+  };
+
+  useEffect(() => {
+    const doneCount = countDoneTags(tasks);
+    localStorage.setItem('completed', doneCount);
+  }, [tasks]);
 
   const handleRowSelectionChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -79,16 +90,14 @@ function TaskList({ tasks, onEdit, onDelete, onTasksUpdate, onRowSelectionChange
       );
     },
   };
-
   return (
     <Table
       columns={columns}
       dataSource={tasks}
       rowSelection={rowSelection}
       expandable={expandable}
-      pagination={false}
+      pagination={true}
     />
   );
 }
-
 export default TaskList;
