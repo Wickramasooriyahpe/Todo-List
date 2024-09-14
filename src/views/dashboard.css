@@ -4,13 +4,11 @@
     background-color: #f4f4f9;
     padding: 20px;
     max-width: 80%;
-    margin: 50px auto;
+    margin: 40px auto;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   } 
-.header {
-    margin-bottom: 20px;
-}
 .table-container{
     width: 600px;
 }
+

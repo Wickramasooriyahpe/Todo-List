@@ -1,38 +1,55 @@
-import React, { useState } from "react";
-import '../../views/dashboard.css'
+import React, { useState, useEffect } from "react";
+import '../../views/dashboard.css';
 import { PlusOutlined } from "@ant-design/icons";
 import CustomButton from "../Button/button";
 import TaskList from "./tasklist";
 import { Modal, Input, Form } from "antd";
+import { useAuth } from "../auth/AuthContext";
 
 function Tasks() {
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
-  const [tasks, setTasks] = useState([]); 
+  const [tasks, setTasks] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const [form] = Form.useForm(); 
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (user) {
+      const storedTasks = localStorage.getItem(`tasks_${user.email}`);
+      if (storedTasks) {
+        setTasks(JSON.parse(storedTasks));
+      }
+    }
+  }, [user]);
 
   const handleAddTask = () => {
     setIsModalOpen(true);
     setIsEditing(false);
-    form.resetFields(); 
+    form.resetFields();
   };
 
   const handleModalOk = () => {
     form.validateFields().then((values) => {
       if (isEditing) {
-        setTasks(
-          tasks.map((task) =>
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
             task.key === editingTask.key ? { ...editingTask, ...values } : task
           )
         );
       } else {
-        setTasks([
-          ...tasks,
-          { ...values, key: tasks.length + 1, tags: ["Todo"] }, 
-        ]);
+        const newTask = { ...values, key: Date.now(), tags: ["Todo"] };
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+      }
+
+      if (user) {
+        const updatedTasks = isEditing
+          ? tasks.map((task) => (task.key === editingTask.key ? { ...editingTask, ...values } : task))
+          : [...tasks, { ...values, key: Date.now(), tags: ["Todo"] }];
+
+        localStorage.setItem(`tasks_${user.email}`, JSON.stringify(updatedTasks));
       }
 
       setIsModalOpen(false);
@@ -49,11 +66,16 @@ function Tasks() {
     setIsEditing(true);
     setIsModalOpen(true);
     setEditingTask(task);
-    form.setFieldsValue(task); 
+    form.setFieldsValue(task);
   };
 
   const handleDeleteTask = (task) => {
-    setTasks(tasks.filter((t) => t.key !== task.key)); 
+    const updatedTasks = tasks.filter((t) => t.key !== task.key);
+    setTasks(updatedTasks);
+
+    if (user) {
+      localStorage.setItem(`tasks_${user.email}`, JSON.stringify(updatedTasks));
+    }
   };
 
   const handleRowSelectionChange = (selectedRowKeys) => {
@@ -63,17 +85,26 @@ function Tasks() {
       tags: selectedRowKeys.includes(task.key) ? ["Done"] : ["Todo"],
     }));
     setTasks(updatedTasks);
+
+    if (user) {
+      localStorage.setItem(`tasks_${user.email}`, JSON.stringify(updatedTasks));
+    }
   };
 
   const handleTasksUpdate = (updatedTasks) => {
-    setTasks(updatedTasks); 
+    setTasks(updatedTasks);
+
+    if (user) {
+      localStorage.setItem(`tasks_${user.email}`, JSON.stringify(updatedTasks));
+    }
   };
 
   return (
     <div>
-      <div >
+      <div>
         <CustomButton
-          text={ <PlusOutlined />  }
+          text="Add New Task"
+          // {<PlusOutlined />}
           className="custom-btn custom-btn-primary"
           onClick={handleAddTask}
         >
@@ -86,8 +117,8 @@ function Tasks() {
           tasks={tasks}
           onEdit={handleEditTask}
           onDelete={handleDeleteTask}
-          onTasksUpdate={handleTasksUpdate} 
-          onRowSelectionChange={handleRowSelectionChange} 
+          onTasksUpdate={handleTasksUpdate}
+          onRowSelectionChange={handleRowSelectionChange}
         />
       </div>
 
@@ -108,9 +139,7 @@ function Tasks() {
           <Form.Item
             name="description"
             label="Description"
-            rules={[
-              { required: true, message: "Please input the task description!" },
-            ]}
+            rules={[{ required: true, message: "Please input the task description!" }]}
           >
             <Input />
           </Form.Item>

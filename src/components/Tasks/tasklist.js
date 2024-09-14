@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
-import { Space, Table, Tag } from 'antd'; // Import Modal for confirmation
+import React, { useState, useEffect } from 'react';
+import { Space, Table, Tag } from 'antd';
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 function TaskList({ tasks, onEdit, onDelete, onTasksUpdate, onRowSelectionChange }) {
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+  const countDoneTags = (tasks) => {
+    return tasks.reduce((count, task) => {
+      return count + (task.tags.includes("Done") ? 1 : 0);
+    }, 0);
+  };
+
+  useEffect(() => {
+    const doneCount = countDoneTags(tasks);
+    localStorage.setItem('completed', doneCount);
+  }, [tasks]);
 
   const handleRowSelectionChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -72,25 +83,21 @@ function TaskList({ tasks, onEdit, onDelete, onTasksUpdate, onRowSelectionChange
 
   const expandable = {
     expandedRowRender: (record) => <p>{record.description}</p>,
-    expandedRowKeys: expandedRowKeys,
+    expandedRowKeys,
     onExpand: (expanded, record) => {
-      if (expanded) {
-        setExpandedRowKeys([...expandedRowKeys, record.key]);
-      } else {
-        setExpandedRowKeys(expandedRowKeys.filter(key => key !== record.key));
-      }
+      setExpandedRowKeys(
+        expanded ? [record.key] : []
+      );
     },
   };
-
   return (
     <Table
       columns={columns}
+      dataSource={tasks}
       rowSelection={rowSelection}
       expandable={expandable}
-      dataSource={tasks}
-      rowKey="key"
+      pagination={true}
     />
   );
 }
-
 export default TaskList;

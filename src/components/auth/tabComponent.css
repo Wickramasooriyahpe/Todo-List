@@ -1,18 +1,21 @@
 .col{
     color: #657786 !important;
     width: 400px; 
+    display: flex;
 }
 .ant-tabs-tab {
     color: #657786 !important; 
   }
 .tab-container{
+    display: flex;
     font-family: Arial, sans-serif;
     text-align: center;
+    justify-content: center;
     background-color: #f4f4f9;
     padding: 35px;
     max-width: 28%;
-    margin-top: 140px;
-    margin-left: 520px;
+    margin-top: 12%;
+    margin-left: 35%;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

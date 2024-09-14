@@ -23,10 +23,11 @@ const Register = () => {
     onSubmit: (values) => {
       const isSuccess = register(values.username, values.email, values.password);
       if (isSuccess) {
-        message.success('Registration successful!');
-        navigate('/dashboard');
+        message.success('Registration successful! Login to the system using your credentials.');
+        navigate('/');//add refresh  page
+        window.location.reload();
       } else {
-        message.error('Registration failed. Please try again.');
+        message.error('Registration failed. User with this email already exists.');
       }
     },
   });
