@@ -1,0 +1,18 @@
+.col{
+    color: #657786 !important;
+    width: 400px; 
+}
+.ant-tabs-tab {
+    color: #657786 !important; 
+  }
+.tab-container{
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f9;
+    padding: 35px;
+    max-width: 28%;
+    margin-top: 140px;
+    margin-left: 520px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

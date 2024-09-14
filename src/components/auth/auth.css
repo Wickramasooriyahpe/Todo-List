@@ -1,0 +1,36 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+  }
+  
+  .auth-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .auth-form .ant-form-item-label > label {
+    font-weight: bold;
+  }
+  
+  .auth-form .error-message {
+    color: #ff4d4f;
+    text-align: center;
+    margin-top: 12px;
+  }
+  
+  .auth-form button {
+    margin-top: 16px;
+  }
+  
+  .auth-form .ant-btn-primary {
+    background-color: #1890ff;
+    border-color: #1890ff;
+  }
+  
